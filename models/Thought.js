@@ -18,14 +18,20 @@ const thoughtSchema = new Schema(
             default: Date.now,
             get: (createdAtVal) => dateFormat(createdAtVal),
         },
+        reactions: [reactionSchema],
     },
     {
         toJSON: {
             getters: true,
+            virtuals: true,
         },
         id: false,
     }
 );
+
+thoughtSchema.virtual('reactionCount').get(function() {
+    return this.reactions.length;
+});
 
 const Thought = model('Thought', thoughtSchema)
 
