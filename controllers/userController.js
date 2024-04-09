@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const Thought = require('../models/Thought')
+const { Schema, model, Types } = require('mongoose');
 
 const userController = {
 
@@ -9,14 +11,17 @@ const userController = {
     },
 
     getUserById(req, res) {
-        User.findOne({ _id: req.params.id })
+        User.findOne({ _id: req.params.id }).populate('thoughts')
         .then(userData => {
             if(!userData) {
                 return res.status(404).json({ message: 'User not found with this id!'});
             }
             res.json(userData);
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
     },
 
     createUser(req, res) {

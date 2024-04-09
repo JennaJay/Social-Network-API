@@ -1,10 +1,11 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Mongoose } = require('mongoose');
 const reactionSchema = require('./Reaction');
 
 const thoughtSchema = new Schema(
     {
-        username: {
-            type: String,
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
             required: true,
         },
         thoughtText: {
@@ -16,7 +17,7 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: (createdAtVal) => dateFormat(createdAtVal),
+            get: (createdAtVal) => new Date(createdAtVal).toLocaleString(),
         },
         reactions: [reactionSchema],
     },

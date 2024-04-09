@@ -1,2 +1,6 @@
-const express = require('express');
-const db = require('./config/');
+const router = require('express');
+const apiRoutes = require('./routes/api');
+
+router.use('/api', apiRoutes);
+
+module.exports = router;
